@@ -1,6 +1,8 @@
-# ChatGPT on WeChat ![Railway Deploy](https://img.shields.io/github/checks-status/kx-huang/chatgpt-on-wechat/master?logo=railway&style=flat) ![License: ISC](https://img.shields.io/badge/License-ISC-yellow.svg) [![wakatime](https://wakatime.com/badge/user/7d2c2fc8-bd1d-4e1e-bb2b-b49c6120ed53/project/205c561e-69ba-4478-b07f-f5bc7a0ed394.svg)](https://wakatime.com/badge/user/7d2c2fc8-bd1d-4e1e-bb2b-b49c6120ed53/project/205c561e-69ba-4478-b07f-f5bc7a0ed394) ![Visitor Count](https://visitor-badge.glitch.me/badge?page_id=kx-Huang.ChatGPT-on-WeChat&left_color=gray&right_color=blue) <!-- omit in toc -->
+# ChatGPT on WeChat ![GitHub License](https://img.shields.io/github/license/kx-huang/chatgpt-on-wechat?label=License&color=orange) [![wakatime](https://wakatime.com/badge/github/kx-Huang/ChatGPT-on-WeChat.svg)](https://wakatime.com/badge/github/kx-Huang/ChatGPT-on-WeChat) ![Railway Deploy](https://img.shields.io/github/checks-status/kx-huang/chatgpt-on-wechat/master?logo=railway&style=flat&label=Deploy) ![GitHub Repo stars](https://img.shields.io/github/stars/kx-huang/chatgpt-on-wechat?style=social)
 
-🤖️ Turn your WeChat into ChatGPT [**within only 2 steps!**](#12-deploy-on-cloud) 🤖️
+<!-- omit in toc -->
+
+🤖️ Turn your WeChat into ChatGPT [**within only 2 steps!**](#12-deploy-on-cloud) 🤖️ 
 
 <p align="center">
   <img src="doc/img/demo.png" alt="Group chat demo for @kx-Huang/ChatGPT-on-WeChat" />
@@ -10,8 +12,8 @@
 
 This project is implemented based on [this amazing project](https://github.com/fuergaosi233/wechat-chatgpt) that I contibuted before, with [`Wechaty SDK`](https://github.com/wechaty/wechaty) and `OpenAI API`, we achieve:
 
-- fast and robust connection to a set of AI models with different features, typically `gpt-3.5-turbo` which powers `ChatGPT`
-- stable and persistent deployment on cloud servers `Railway`
+- fast and robust connection to a set of AI models with different features, typically `gpt-4` and `gpt-3.5-turbo` which powers `ChatGPT`
+- stable, persistent and rapid deployment on cloud servers `Railway`
 
 ## 0. Table of Content <!-- omit in toc -->
 
@@ -84,13 +86,13 @@ export CHATGPT_TRIGGER_KEYWORD="机器人你好："
 1. Setup Docker Image
 
 ```bash
-docker build -t openai-on-wechat .
+docker build -t chatgpt-on-wechat .
 ```
 
 2. Setup Docker Container
 
 ```bash
-docker run -v $(pwd)/config.yaml:/app/config.yaml openai-on-wechat
+docker run -v $(pwd)/config.yaml:/app/config.yaml chatgpt-on-wechat
 ```
 
 ---
@@ -163,15 +165,17 @@ const chatgptErrorMessage = "🤖️：ChatGPT摆烂了，请稍后再试～";
 
 ### 2.2 Config `OpenAI` Models
 
-You can change whatever `OpenAI` Models you like to handle task at different capability & time-consumption trade-off. (e.g. model with better capability costs more time to respond)
+You can change whatever `OpenAI` Models you like to handle task at different capability, time-consumption and expense trade-off. (e.g. model with better capability costs more time to respond)
 
-Currently, we use the latest `gpt-3.5-turbo` model. According to OpenAI doc,
+Since the latest `gpt-4` model is currently in a limited beta and only accessible to those who have been granted access, currently we use the `gpt-3.5-turbo` model as default. Of course, if you have the access to `gpt-4` API, you can just change the model to `gpt-4` without any other modification.
 
-> ChatGPT is powered by `gpt-3.5-turbo`, OpenAI’s most advanced language model.
+According to OpenAI doc,
+
+> GPT-3.5 models can understand and generate natural language or code. Our most capable and cost effective model in the GPT-3.5 family is `gpt-3.5-turbo` which has been optimized for chat but works well for traditional completions tasks as well.
 
 Also, for the same model, we can configure dozens of parameter (e.g. answer randomness, maximum word limit...). For example, for the `temperature` field:
 
-> Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+> Higher values like **0.8** will make the output more random, while lower values like **0.2** will make it more focused and deterministic.
 
 You can configure all of them in `src/chatgpt.js`:
 
@@ -256,7 +260,20 @@ if (message.text().startsWith("Hello")) {
 
 ## 4. How to Contribute to this Project?
 
-You can raise some issues, fork this repo, commit your code, submit pull request, and after code review, we can merge your patch. I'm really looking forward to develop more interesting features!
+You are more than welcome to raise some issues, fork this repo, commit your code and submit pull request. And after code review, we can merge your contribution. I'm really looking forward to develop more interesting features!
+
+Also, there're something in the to-do list for future enhancement:
+
+1. Chat with context:
+  - Keep track of every on-going conversation for each private chat or group chat
+  - Dynamic drop or summarize the history conversation sent throught API in case the token gets oversized
+  - Set time-out for a conversation when users stop chatting for a while
+2. More AI capability:
+  - Integrate OpenAI `DALL·E` model for AI image creation. Triggered by customized keyword (e.g. Hi bot, draw...)
+  - Integrate OpenAi `Whisper` model for speech recognition. Triggered by voice messages and do transcription or translation
+3. More flexible depolyment:
+  - Make deployment templates on other cloud platforms
+  - Optimize depolyment process to be more robust and compatible on different OS
 
 ## Thanks for your support!
 
